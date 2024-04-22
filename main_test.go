@@ -53,8 +53,11 @@ func TestMainHandlerWhenCountMoreThanTotal(t *testing.T) {
 	handler := http.HandlerFunc(mainHandle)
 	handler.ServeHTTP(responseRecorder, req)
 
+	// проверяем статус на http.StatusOK
+	require.Equal(t, responseRecorder.Code, http.StatusOK)
+
 	// проверяем что вернулось totalCount
 	body := responseRecorder.Body.String()
 	list := strings.Split(body, ",")
-	require.Len(t, list, totalCount)
+	assert.Len(t, list, totalCount)
 }
