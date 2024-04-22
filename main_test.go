@@ -20,12 +20,10 @@ func TestMainHandlerCorrectRequest(t *testing.T) {
 	handler.ServeHTTP(responseRecorder, req)
 
 	// проверяем статус на http.StatusOK
-	assert.Equal(t, responseRecorder.Code, http.StatusOK)
+	require.Equal(t, responseRecorder.Code, http.StatusOK)
 
-	// читаем тело в строку
-	body := responseRecorder.Body.String()
 	// проверяем не пустое ли тело
-	assert.NotEmpty(t, body)
+	assert.NotEmpty(t, responseRecorder.Body)
 }
 
 func TestMainHandlerCityIsMissing(t *testing.T) {
@@ -39,11 +37,10 @@ func TestMainHandlerCityIsMissing(t *testing.T) {
 	handler.ServeHTTP(responseRecorder, req)
 
 	// проверяем ответ на 400 http.StatusBadRequest
-	assert.Equal(t, responseRecorder.Code, http.StatusBadRequest)
+	require.Equal(t, responseRecorder.Code, http.StatusBadRequest)
 
 	// и тело == wrong city value
-	body := responseRecorder.Body.String()
-	assert.Equal(t, body, "wrong city value")
+	assert.Equal(t, responseRecorder.Body.String(), "wrong city value")
 }
 
 func TestMainHandlerWhenCountMoreThanTotal(t *testing.T) {
